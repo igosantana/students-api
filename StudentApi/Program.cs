@@ -7,10 +7,12 @@ using StudentApi.Repositories;
 using StudentApi.Services;
 using StudentApi.Configurations;
 using System.Text;
+using Microsoft.OpenApi.Models;
+using System.Globalization;
+using System.Reflection;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// Adiciona serviços ao container
 builder.Services.AddDbContext<AppDbContext>(options =>
     options.UseInMemoryDatabase("StudentDb"));
 builder.Services.Configure<JwtConfig>(builder.Configuration.GetSection("JwtConfig"));
@@ -39,18 +41,52 @@ builder.Services.AddAuthentication(options =>
     };
 });
 
+builder.Services.AddSwaggerGen(c =>
+{
+    c.SwaggerDoc("v1", new OpenApiInfo { Title = "Student API", Version = "v1" });
+    var xmlFile = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
+    var xmlPath = Path.Combine(AppContext.BaseDirectory, xmlFile);
+    c.IncludeXmlComments(xmlPath);
+    c.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
+    {
+        Name = "Authorization",
+        Type = SecuritySchemeType.ApiKey,
+        Scheme = "Bearer",
+        BearerFormat = "JWT",
+        In = ParameterLocation.Header,
+        Description = "JWT Authorization header using the Bearer scheme."
+    });
+    c.AddSecurityRequirement(new OpenApiSecurityRequirement
+    {
+        {
+            new OpenApiSecurityScheme
+            {
+                Reference = new OpenApiReference
+                {
+                    Type = ReferenceType.SecurityScheme,
+                    Id = "Bearer"
+                }
+            },
+            new string[] {}
+        }
+    });
+});
+
 builder.Services.AddAuthorization();
 
 
-// Adiciona controladores ao container
 builder.Services.AddControllers();
 
 var app = builder.Build();
 
-// Configura o pipeline de requisições HTTP
 if (app.Environment.IsDevelopment())
 {
-    app.UseDeveloperExceptionPage();
+    app.UseSwagger();
+    app.UseSwaggerUI(c =>
+    {
+        c.SwaggerEndpoint("/swagger/v1/swagger.json", "Student API V1");
+        c.RoutePrefix = string.Empty;
+    });
 }
 
 app.UseHttpsRedirection();
