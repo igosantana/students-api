@@ -1,0 +1,88 @@
+# Compiled object files
+*.o
+*.obj
+*.lo
+*.la
+*.al
+*.libs
+*.so
+*.dylib
+*.lib
+*.a
+*.lai
+
+# Compiled Dynamic libraries
+*.dll
+*.dll.config
+
+# For Visual Studio 2019/2022
+.vscode
+.vscode-test
+
+# User-specific files
+*.rsuser
+*.suo
+*.user
+*.userosscache
+*.sln.docstates
+
+# Mono auto generated files
+mono_crash.*
+
+# Windows image file caches
+Thumbs.db
+Thumbs.db:encryptable
+ehthumbs.db
+ehthumbs_vista.db
+
+# Folder config file
+Desktop.ini
+
+# Recycle Bin used on file shares
+$RECYCLE.BIN/
+
+# Windows shortcuts
+*.lnk
+
+# build directories
+bin/
+obj/
+
+# Rider project directory
+.idea/
+
+# VS Code directories
+.vscode/
+
+# JetBrains Rider directories
+.idea/
+.idea_modules/
+.idea.*/
+*.iml
+*.ipr
+*.iws
+
+# Rider project files
+*.sln*
+*.csproj.user
+*.nupkg
+*.suo
+
+# Node.js files
+node_modules/
+
+# Log files
+*.log
+
+# OS generated files
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+desktop.ini
+._*
+
+# Temporary files
+*.tmp
+*.temp
