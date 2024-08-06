@@ -21,7 +21,7 @@ namespace StudentApi.Data
         {
             if (!_context.Students.Any())
             {
-                var students = GetStudentsFromCsv("C:\\Users\\igo_s\\OneDrive\\Documents\\pessoal\\teste\\students.csv");
+                var students = GetStudentsFromCsv("C:\\Users\\igosl\\Documents\\projetos\\teste\\students.csv");
                 await _context.Students.AddRangeAsync(students);
             }
 
