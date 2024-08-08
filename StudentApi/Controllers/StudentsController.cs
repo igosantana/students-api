@@ -25,11 +25,26 @@ namespace StudentApi.Controllers
         /// </summary>
         /// <returns>List of students</returns>
         [HttpGet]
-		public async Task<ActionResult<IEnumerable<Student>>> GetStudents()
+		public async Task<ActionResult<IEnumerable<Student>>> GetStudents([FromQuery] int pageNumber = 1, [FromQuery] int pageSize = 10)
 		{
 			var students = await _studentRepository.GetAllAsync();
-			return Ok(students);
-		}
+            var pagedStudents = students
+                .Skip((pageNumber - 1) * pageSize)
+                .Take(pageSize)
+                .ToList();
+
+            var totalRecords = students.Count();
+
+            var response = new
+            {
+                TotalRecords = totalRecords,
+                PageNumber = pageNumber,
+                PageSize = pageSize,
+                Data = pagedStudents
+            };
+
+            return Ok(response);
+        }
 
         /// <summary>
         /// Get a specific student by id

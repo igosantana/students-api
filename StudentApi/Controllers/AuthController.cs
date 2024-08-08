@@ -32,7 +32,7 @@ namespace StudentApi.Controllers
                 return Unauthorized();
             }
 
-            return Ok(new { Token = token });
+            return Ok(new { Token = token, User = model.Username });
         }
     }
 
