@@ -32,11 +32,10 @@ namespace StudentApi.Repositories
             return student;
         }
 
-        public async Task<Student> UpdateAsync(Student student)
+        public async Task UpdateAsync(Student student)
         {
             _context.Entry(student).State = EntityState.Modified;
             await _context.SaveChangesAsync();
-            return student;
         }
 
         public async Task DeleteAsync(int id)

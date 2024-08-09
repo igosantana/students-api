@@ -5,23 +5,33 @@ using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
 
 namespace StudentApi.Data
 {
     public class DataSeeder
     {
         private readonly AppDbContext _context;
+        private readonly IConfiguration _configuration;
 
         public DataSeeder(AppDbContext context)
         {
             _context = context;
         }
 
+        public DataSeeder(AppDbContext context, IConfiguration configuration)
+        {
+            _context = context;
+            _configuration = configuration;
+        }
+
         public async Task SeedData()
         {
             if (!_context.Students.Any())
             {
-                var students = GetStudentsFromCsv("C:\\Users\\igosl\\Documents\\projetos\\teste\\students.csv");
+                var csvFilePath = _configuration["CsvFilePath"];
+                var students = GetStudentsFromCsv(csvFilePath);
                 await _context.Students.AddRangeAsync(students);
             }
 

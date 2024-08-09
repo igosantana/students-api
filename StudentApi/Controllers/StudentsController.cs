@@ -87,21 +87,56 @@ namespace StudentApi.Controllers
 		}
 
         /// <summary>
-        /// Update an existing student
+        /// Update an existing student partially
         /// </summary>
         /// <param name="id">Student id</param>
-        /// <param name="student">Updated student object</param>
+        /// <param name="studentUpdateDto">Updated student object with partial fields</param>
         /// <returns>No content</returns>
-        [HttpPut("{id}")]
-		public async Task<IActionResult> PutStudent(int id, Student student)
-		{
-			if (id != student.Id)
-			{
-				return BadRequest();
-			}
-			await _studentRepository.UpdateAsync(student);
-			return NoContent();
-		}
+        [HttpPatch("{id}")]
+        public async Task<IActionResult> PatchStudent(int id, StudentUpdateDto studentUpdateDto)
+        {
+            var student = await _studentRepository.GetByIdAsync(id);
+            if (student == null)
+            {
+                return NotFound();
+            }
+
+            if (studentUpdateDto.Nome != null)
+            {
+                student.Nome = studentUpdateDto.Nome;
+            }
+            if (studentUpdateDto.Idade.HasValue)
+            {
+                student.Idade = studentUpdateDto.Idade.Value;
+            }
+            if (studentUpdateDto.Serie.HasValue)
+            {
+                student.Serie = studentUpdateDto.Serie.Value;
+            }
+            if (studentUpdateDto.NotaMedia.HasValue)
+            {
+                student.NotaMedia = studentUpdateDto.NotaMedia.Value;
+            }
+            if (studentUpdateDto.Endereco != null)
+            {
+                student.Endereco = studentUpdateDto.Endereco;
+            }
+            if (studentUpdateDto.NomePai != null)
+            {
+                student.NomePai = studentUpdateDto.NomePai;
+            }
+            if (studentUpdateDto.NomeMae != null)
+            {
+                student.NomeMae = studentUpdateDto.NomeMae;
+            }
+            if (studentUpdateDto.DataNascimento.HasValue)
+            {
+                student.DataNascimento = studentUpdateDto.DataNascimento.Value;
+            }
+
+            await _studentRepository.UpdateAsync(student);
+            return NoContent();
+        }
 
         /// <summary>
         /// Delete a student
