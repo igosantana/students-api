@@ -8,7 +8,7 @@ Este projeto é uma API RESTful desenvolvida com .NET 6 que gerencia informaçõ
   - `GET /api/students`: Retorna todos os estudantes (autenticado).
   - `GET /api/students/{id}`: Retorna um estudante específico (autenticado).
   - `POST /api/students`: Cria um novo estudante (autenticado).
-  - `PUT /api/students/{id}`: Atualiza um estudante existente (autenticado).
+  - `PATCH /api/students/{id}`: Atualiza um estudante existente (autenticado).
   - `DELETE /api/students/{id}`: Deleta um estudante (autenticado).
 
 - **Endpoint para Autenticação:**
